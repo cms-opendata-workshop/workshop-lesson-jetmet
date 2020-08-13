@@ -3,7 +3,17 @@ layout: lesson
 root: .  # Is the only page that doesn't follow the pattern /:path/index.html
 permalink: index.html  # Is the only page that doesn't follow the pattern /:path/index.html
 ---
-This lesson is going to teach you how to interaction with physics objects.
+Jets and missing transverse energy (MET) are critical for CMS physics analyses. They are more 
+complex than most of the objects we discussed in the previous lesson, because they are 
+reconstructed using **multiple particle-flow candidates**. After all candidates have been built
+from the tracks and energy deposits in CMS, they can be "clustered" using a variety of 
+algorithms into composite objects called "jets". Missing transverse energy clusters, in a sense, 
+all candidates in the entire detector: it is the negative vector sum of the momentum of all
+candidates. 
+
+In this lesson we will explore the basic utilities for jets and MET, how to identify jets that 
+arise from interesting original particles such as bottom quarks, and how to correct jets and 
+MET for differences between data and simulation. 
 
 <!-- this is an html comment -->
 
