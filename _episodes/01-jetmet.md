@@ -35,16 +35,16 @@ energy deposits in the calorimeters. These particles are formed into jets using 
 "anti-kt" algorithm, which is abbreviated "AK". It iterates over particle pairs and finds the two (*i* and *j*) that are the closest in some distance
 measure and determines whether to combine them:
 
-![equation](<a href="https://www.codecogs.com/eqnedit.php?latex=d_{ij}&space;=&space;min(p^{-2}_{T,i},p^{-2}_{T,j})\Delta&space;R^2_{ij}/R^2" target="_blank"><img src="https://latex.codecogs.com/svg.latex?d_{ij}&space;=&space;min(p^{-2}_{T,i},p^{-2}_{T,j})\Delta&space;R^2_{ij}/R^2" title="d_{ij} = min(p^{-2}_{T,i},p^{-2}_{T,j})\Delta R^2_{ij}/R^2" /></a>)
+<a href="https://www.codecogs.com/eqnedit.php?latex=d_{ij}&space;=&space;min(p^{-2}_{T,i},p^{-2}_{T,j})\Delta&space;R^2_{ij}/R^2" target="_blank"><img src="https://latex.codecogs.com/svg.latex?d_{ij}&space;=&space;min(p^{-2}_{T,i},p^{-2}_{T,j})\Delta&space;R^2_{ij}/R^2" title="d_{ij} = min(p^{-2}_{T,i},p^{-2}_{T,j})\Delta R^2_{ij}/R^2" /></a>
 
-![equation](<a href="https://www.codecogs.com/eqnedit.php?latex=\text{Combine&space;when&space;}&space;d_{ij}&space;<&space;p^{-2}_{T,i}\text{&space;;&space;stop&space;when&space;}&space;d_{ij}&space;>&space;p^{-2}_{T,i}" target="_blank"><img src="https://latex.codecogs.com/svg.latex?\text{Combine&space;when&space;}&space;d_{ij}&space;<&space;p^{-2}_{T,i}\text{&space;;&space;stop&space;when&space;}&space;d_{ij}&space;>&space;p^{-2}_{T,i}" title="\text{Combine when } d_{ij} < p^{-2}_{T,i}\text{ ; stop when } d_{ij} > p^{-2}_{T,i}" /></a>)
+<a href="https://www.codecogs.com/eqnedit.php?latex=\text{Combine&space;when&space;}&space;d_{ij}&space;<&space;p^{-2}_{T,i}\text{&space;;&space;stop&space;when&space;}&space;d_{ij}&space;>&space;p^{-2}_{T,i}" target="_blank"><img src="https://latex.codecogs.com/svg.latex?\text{Combine&space;when&space;}&space;d_{ij}&space;<&space;p^{-2}_{T,i}\text{&space;;&space;stop&space;when&space;}&space;d_{ij}&space;>&space;p^{-2}_{T,i}" title="\text{Combine when } d_{ij} < p^{-2}_{T,i}\text{ ; stop when } d_{ij} > p^{-2}_{T,i}" /></a>
 
-![clustering](clustering.png)
+<img src="{{ page.root }}/clustering.png" alt="Clustering sequence" />
 
 The momentum power (-2) used by the anti-kt algorithm means that higher-momentum particles are clustered first. This leads to jets with a round shape that
 tend to be centered on the hardest particle. In CMS software this clustering is implemented using the [[fastjet][www.fastjet.fr]] package. 
 
-![anti-kt](antikt.png)
+<img src="{{ page.root }}/antikt.png" alt="anti-kt example" />
 
 ## Pileup
 
