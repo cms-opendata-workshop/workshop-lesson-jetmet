@@ -109,7 +109,7 @@ are based on a misidentification probability for light-flavor jets in ttbar even
 * ~1% (Medium)
 * ~0.1% (Tight)
 
-The discriminator cuts from working points defined by the BTV POG for this dataset are (https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation53XReReco):
+The discriminator cuts from working points defined by the BTV POG for this dataset are (https://twiki.cern.ch/twiki/bin/view/CMSPublic/BtagRecommendation2011OpenData):
 
 CSVL (Loose) - 0.244
 CSVM (Medium) - 0.679
@@ -128,3 +128,8 @@ for(unsigned int ijet=0; ijet < Jet_pt->size(); ijet++){
 {: .source}
 
 
+Scale factors (ADD MORE):
+
+ * [Explanation](https://twiki.cern.ch/twiki/bin/view/CMSPublic/BtagRecommendation2011OpenData#Data_MC_Scale_Factors)
+ * [Data file for the CSV algoritm](https://twiki.cern.ch/twiki/pub/CMSPublic/BtagRecommendation2011OpenData/CSV.csv)
+ * [Examples of application methods](https://twiki.cern.ch/twiki/bin/view/CMSPublic/BtagRecommendation2011OpenData#Methods_to_Apply_b_Tagging_Effic)
