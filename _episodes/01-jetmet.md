@@ -94,7 +94,8 @@ These criteria demonstrate how particle-flow jets combine information across sub
 energy should be less than one. Similarly, jets should have some energy from charged hadrons if they overlap the inner tracker, and all the energy should not come from neutral hadrons. 
 A mixture of energy sources is expected for genuine jets. All of these energy fractions (and more) can be accessed from the jet objects. 
 
->## Challenge: 
+>## Challenge: Jet ID
+>
 >Use the [cms-sw github repository](https://github.com/cms-sw/cmssw/tree/CMSSW_5_3_X/DataFormats/JetReco/) to learn the methods available for PFJets 
 >(hint: the header file is included from `AOD2NanoAOD.cc`). Implement the jet ID and **reject** jets that do not pass. Rejection means that information
 >about these jets will not be stored in any of the tree branches. 
@@ -135,7 +136,8 @@ as opposed to a neutrino or similar non-interacting particle. The four-vectors o
 uncertainties are required to compute the significance of the MET signature. MET that is directed nearly (anti)colinnear with 
 a physics object is likely to arise from mismeasurement and should not have a large significance. 
 
->## Challenge:
+>## Challenge: real and fake MET
+>
 >Compile all your changes to `AOD2NanoAOD.cc` so far and run over the simulation sample again. 
 >This test file contains top quark pair events, so some events will have leptonic decays that include neutrinos
 >and some events will not. Review TTree::Draw from the pre-exercises -- can you draw histograms of MET versus MET significance 
