@@ -8,11 +8,15 @@ objectives:
 - "Understand typical features of jet/MET objects"
 - "Practice accessing jet quantities"
 keypoints:
-- "A" 
-- "B"
-- "C"
-- "D"
+- "Jets are spatially-grouped collections of particles that traversed the CMS detector" 
+- "Particles from additional proton-proton collisions (pileup) must be removed from jets"
+- "Missing transverse energy is the negative vector sum of particle candidates"
+- "Many of the class methods discussed for other objects can be used for jets"
 ---
+
+After tracks and energy deposits in the CMS tracking detectors (inner, muon) and calorimeters (electromagnetic, hadronic) are reconstructed as particle flow candidates, an event can be interpreted in various ways. Two common elements of event interpretation are **clustering jets** and calculating **missing transverse momentum**.
+
+## Jets
 
 Jets are spatially-grouped collections of long-lived particles that are produced when a quark or gluon hadronizes. The kinetmatic properties of
 jets resemble that of the initial partons that produced them. In the CMS language, jets are made up of many particles, with the
@@ -52,10 +56,11 @@ Inevitably, the list of particle flow candidates contains particles that did not
 simultaneous collisions, called "pileup", during each "bunch crossing" of the LHC, so particles from multiple collisions coexist in the detector.
 There are various methods to remove their contributions from jets:
 
- * Charged hadron subtraction (CHS): all charged hadron candidates are associated with a track. If the track is not associated with the primary vertex, that
+ * Charged hadron subtraction [CHS](http://cms-results.web.cern.ch/cms-results/public-results/preliminary-results/JME-14-001/index.html): all charged hadron candidates 
+ are associated with a track. If the track is not associated with the primary vertex, that
  charged hadron can be removed from the list. CHS is limited to the region of the detector covered by the inner tracker. The pileup contribution to
  neutral hadrons has to be removed mathematically -- more in episode 3!
- * PileUp Per Particle Identification (PUPPI): CHS is applied, and then all remaining particles are weighted based on their likelihood of arising from
+ * PileUp Per Particle Identification (PUPPI, available in Run 2): CHS is applied, and then all remaining particles are weighted based on their likelihood of arising from
  pileup. This method is more stable and performant in high pileup scenarios such as the upcoming HL-LHC era.
 
 ## Accessing jets in CMS software
@@ -64,7 +69,7 @@ Jets software classes have the same basic 4-vector methods as the objects discus
 
 ~~~
 Handle<CaloJetCollection> jets;
-iEvent.getByLabel(InputTag("ak5CaloJets"), jets);
+iEvent.getByLabel(InputTag("ak5PFJets"), jets);
 
 for (auto it = jets->begin(); it != jets->end(); it++) {
 
@@ -77,13 +82,36 @@ for (auto it = jets->begin(); it != jets->end(); it++) {
 ~~~
 {: .source}
 
-Talk about the energy fractions, and how IDs are formed (FIND PUBLIC LINK!)
+Particle-flow jets are not immune to noise in the detector, and jets used in analyses should be filtered to remove noise jets. 
+CMS has defined a [Jet ID](http://cdsweb.cern.ch/record/1279362) with criteria for good jets: 
 
-CHALLENGE: implement a "loose ID" boolean variable in teh code
+>The PFlow jets are required to have charged hadron fraction CHF > 0.0 if within tracking fiducial region of |eta| < 2.4, neutral hadron fraction NHF < 1.0, charged electromagnetic 
+>(electron) fraction CEF < 1.0, and neutral electromagnetic (photon) fraction NEF < 1.0. These requirements remove fake jets arising from spurious energy depositions in a single 
+>sub-detector. 
+{: .quotation}
+
+These criteria demonstrate how particle-flow jets combine information across subdetectors. Jets will typically have energy from electrons and photons, but those fractions of the total
+energy should be less than one. Similarly, jets should have some energy from charged hadrons if they overlap the inner tracker, and all the energy should not come from neutral hadrons. 
+A mixture of energy sources is expected for genuine jets. All of these energy fractions (and more) can be accessed from the jet objects. 
+
+>## Challenge: 
+>Use the [cms-sw github repository](https://github.com/cms-sw/cmssw/tree/CMSSW_5_3_X/DataFormats/JetReco/) to learn the methods available for PFJets 
+>(hint: the header file is included from `AOD2NanoAOD.cc`). Implement the jet ID and **reject** jets that do not pass. Rejection means that information
+>about these jets will not be stored in any of the tree branches. 
+{: .challenge}
+
 
 ## MET
 
-Talk about MET
+[Missing transverse momentum](https://cds.cern.ch/record/1543527) is the negative vector sum of the transverse momenta of all particle flow candidates in an event. 
+The magnitude of the missing transverse momentum vector is called missing transverse energy and referred to with the acronym "MET". 
+Since energy corrections are made to the particle flow jets, those corrections are propagated to MET by adding back the momentum vectors of the
+original jets and then subtracting the momentum vectors of the corrected jets. This correction is called "Type 1" and is standard for all CMS analyses.
+The jet energy corrections will be discussed more deeply at the end of this lesson.  
+
+In `AOD2NanoAOD.cc` we open the particle flow MET module and extract the magnitude and angle of the MET, the sum of all energy
+in the detector, and variables related to the "significance" of the MET. Note that MET quantities have a single value for the 
+entire event, unlike the objects studied previously. 
 
 ~~~
 Handle<PFMETCollection> met;
@@ -101,6 +129,26 @@ value_met_covyy = cov[1][1];
 
 ~~~
 {: .source}
+
+MET significance can be a useful tool: it describes the likelihood that the MET arose from noise or mismeasurement in the detector
+as opposed to a neutrino or similar non-interacting particle. The four-vectors of the other physics objects along with their 
+uncertainties are required to compute the significance of the MET signature. MET that is directed nearly (anti)colinnear with 
+a physics object is likely to arise from mismeasurement and should not have a large significance. 
+
+>## Challenge:
+>Compile all your changes to `AOD2NanoAOD.cc` so far and run over the simulation sample again. 
+>This test file contains top quark pair events, so some events will have leptonic decays that include neutrinos
+>and some events will not. Review TTree::Draw from the pre-exercises -- can you draw histograms of MET versus MET significance 
+>and infer which events have leptonic decays? **TESTME!**
+>
+> ~~~
+> $ scram b
+> $ cmsRun configs/simulation_cfg.py
+> $ root -l output.root
+> [0] Events->Draw("...things...")
+> ~~~
+> {: .source}
+{: .challenge}
 
 {% include links.md %}
 
