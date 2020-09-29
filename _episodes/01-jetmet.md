@@ -49,6 +49,8 @@ The momentum power (-2) used by the anti-kt algorithm means that higher-momentum
 tend to be centered on the hardest particle. In CMS software this clustering is implemented using the [[fastjet][www.fastjet.fr]] package. 
 
 <img src="antikt.png" alt="anti-kt example" />
+![](../assets/img/antikt.png)
+
 
 ## Pileup
 
