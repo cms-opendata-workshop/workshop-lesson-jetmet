@@ -21,7 +21,7 @@ MET for differences between data and simulation.
 
 > ## Prerequisites
 >
-> Complete the pre-exercises and watch videos X and Y and Z. 
+> Complete the pre-exercises and the Physics Objects 1 asynchronous lesson. 
 {: .prereq}
 
 > ## Big questions
@@ -29,7 +29,6 @@ MET for differences between data and simulation.
 > 1. How are jets and missing transverse energy accessed in CMS files?
 > 2. How can I identify jets from b quarks?
 > 3. How are data/simulation differences dealt with for jets and MET?
-> 4. <TBA>?
 >
 {: .checklist}
 
