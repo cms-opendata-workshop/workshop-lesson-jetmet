@@ -130,4 +130,5 @@ extracting functions from a comma-separated-values file. Details and usage refer
 
 Watch for more implementation examples in future updates to the Open Data Guide!
 
+{% include links.md %}
 
