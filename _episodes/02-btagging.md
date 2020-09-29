@@ -2,12 +2,11 @@
 title: "Heavy flavor tagging"
 teaching: 10 min
 exercises: 20 min
-questions: "How are b hadrons identified in CMS"
--
+questions:
+-"How are b hadrons identified in CMS"
 .objectives:
 -"Understand the basics of heavy flavor tagging"
 -"Learn to access tagging information in AOD files"
-
 .keypoints:
 -"Tagging algorithms separate heavy flavor jets from jets produced by the hadronization of light quarks and gluons"
 -"Tagging algorithms produce a disriminator value for each jet that represents the likelihood that the jet came from a b hadron"
