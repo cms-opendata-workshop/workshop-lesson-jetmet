@@ -117,7 +117,7 @@ When training a tagging algorithm, it's highly probable that the efficiencies fo
 and data. These differences must be measured and corrected for using "scale factors" constructed from ratios of the efficiencies from different sources. The figures below
 show examples of the b and light quark efficiencies and scale factors as a function of jet momentum ([read more](https://twiki.cern.ch/twiki/bin/view/CMSPublic/PhysicsResultsBTV13001)).
 
-<img src="bEff.PNG" alt="" /> <img src="lightEff.PNG" alt="" />
+<img src="bEff.PNG" height=300 alt="" /> <img src="lightEff.PNG" height=300 alt="" />
 ![](../assets/img/bEff.PNG) ![](../assets/img/lightEff.PNG)
 
 
