@@ -1,7 +1,7 @@
 ---
 title: "Jet corrections"
 teaching: 15
-exercises: 30
+exercises: 20
 questions:
 - "How are data/simulation differences dealt with for jets and MET?"
 objectives:
@@ -24,6 +24,7 @@ effect can be studied independently.
 ## Correction levels
 
 <img src="correctionFlow.PNG" alt="Correction flow" />
+![](../assets/img/correctionFlow.PNG)
 
 Particles from additional interactions in nearby bunch crossings of the LHC contribute energy in the calorimeters that must somehow be distinguished from the
 energy deposits of the main interaction. Extra energy in a jet's cone can make its measured momentum larger than the momentum of the parent particle.
@@ -40,6 +41,7 @@ simulation. A final set of flavor-based corrections are used in certain analyses
 described in [this paper](https://arxiv.org/pdf/1107.4277.pdf). The figure below shows the result of the L1+L2+L3 corrections on the jet response.
 
 <img src="responseFlow.PNG" alt="Response flow" />
+![](../assets/img/responseFlow.PNG)
 
 There are several methods available for applying jet energy corrections to reconstructed jets. We have demonstrated a method to read in the corrections from
 text files and extract the corrections manually for each jet. In `simulation_cfg.py` the file names are passed to the `AOD2NanoAOD` analyzer:
@@ -174,6 +176,7 @@ jets located near the center of the CMS barrel region, and the precision drops a
 subdetectors lose coverage. 
 
 <img src="uncertainties.PNG" alt="JEC uncertainty" />
+![](../assets/img/uncertainties.PNG)
 
 >## Challenge: shifted histograms
 >
