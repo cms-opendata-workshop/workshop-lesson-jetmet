@@ -117,10 +117,9 @@ When training a tagging algorithm, it's highly probable that the efficiencies fo
 and data. These differences must be measured and corrected for using "scale factors" constructed from ratios of the efficiencies from different sources. The figures below
 show examples of the b and light quark efficiencies and scale factors as a function of jet momentum ([read more](https://twiki.cern.ch/twiki/bin/view/CMSPublic/PhysicsResultsBTV13001)).
 
-<img src="bEff.PNG" />
-![](assets/img/bEff.PNG)
-<img src="lightEff.PNG" />
-![](assets/img/lightEff.PNG)
+<img src="bEff.PNG" alt="" /> <img src="lightEff.PNG" alt="" />
+![](../assets/img/bEff.PNG) ![](../assets/img/lightEff.PNG)
+
 
 In simulation, the efficiency for tagging b quarks as b jets is defined as the number of "real b jets" (jets spatially matched to generator-level b hadrons)
 tagged as b jets divided by the number of real b jets. The efficiency for mis-tagging c or light quarks as b jets is similar (real c/light jets tagged as b jets
