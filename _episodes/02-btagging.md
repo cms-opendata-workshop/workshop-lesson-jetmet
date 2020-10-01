@@ -80,9 +80,10 @@ We can investigate at the b tag information in a dataset using ROOT.
 
 ~~~
 $ root -l output.root
-[0] TBrowser b;
+[0] _file0->cd("aod2nanoaod");
+[1] Events->Draw("Jet_btag");
 ~~~
-{: .source}
+{: .language-bash}
 
 From the "Events" tree, select Jet_btag to see the distribution of discriminator values in the top quark pair file you processed earlier.
 
@@ -113,11 +114,17 @@ defined based on mis-tagging rate:
 ## Data and simulation differences:
 
 When training a tagging algorithm, it's highly probable that the efficiencies for tagging different quark flavors as b jets will vary between simulation
-and data. These differences must be measured and corrected for using "scale factors" constructed from ratios of the efficiencies from different sources.
+and data. These differences must be measured and corrected for using "scale factors" constructed from ratios of the efficiencies from different sources. The figures below
+show examples of the b and light quark efficiencies and scale factors as a function of jet momentum ([read more](https://twiki.cern.ch/twiki/bin/view/CMSPublic/PhysicsResultsBTV13001)).
+
+<img src="bEff.PNG" />
+![](assets/img/bEff.PNG)
+<img src="lightEff.PNG" />
+![](assets/img/lightEff.PNG)
 
 In simulation, the efficiency for tagging b quarks as b jets is defined as the number of "real b jets" (jets spatially matched to generator-level b hadrons)
 tagged as b jets divided by the number of real b jets. The efficiency for mis-tagging c or light quarks as b jets is similar (real c/light jets tagged as b jets
-/ real c/light jets). These values are typically computed as functions of the momentum or pseudorapidity of the jet.
+/ real c/light jets). These values are typically computed as functions of the momentum or pseudorapidity of the jet. The "real" flavor of the jet is accessed most simply by creating `pat::Jet` objects instead of `reco::Jet` objects, as we will see in the next episode.
 
 Scale factors to increase or decrease the number of b-tagged jets in simulation can be applied in a number of ways, but typically involve weighting simulation
 events based on the efficiencies and scale factors relevant to each jet in the event. Scale factors for the CSV algorithm are available for Open Data and involve
