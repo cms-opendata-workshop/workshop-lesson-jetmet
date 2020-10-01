@@ -15,6 +15,21 @@ keypoints:
 - "Jet energy corrections are an source of systematic error and uncertainties should be evaluated"
 ---
 
+>## Update your github area
+>
+> Before we begin today, please update your AOD2NanoAODOutreachTool area:
+>~~~
+>$ cd workspace/AOD2NanoAODOutreachTool/
+>$ git status ## to see files you've changed
+>$ git add src/AOD2NanoAOD.cc ## plus any other files you changed
+>$ git commit -m "workshop day 1"
+>$ git pull
+>~~~
+>{: .language-bash}
+>You might see some merge conflicts (hopefully rare). In this case open the files, look for >>>>>>>>>> and choose the
+>updated version. 
+{: .prereq}
+
 Unsurprisingly, the CMS detector does not measure jet energies perfectly, nor
 do simulation and data agree perfectly! The measured energy of jet must be
 corrected so that it can be related to the true energy of its parent particle.
