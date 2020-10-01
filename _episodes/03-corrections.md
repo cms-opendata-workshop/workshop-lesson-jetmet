@@ -263,6 +263,8 @@ jet's flavor directly makes calculation of b-tagging efficiencies and scale fact
 ~~~
 {: .source}
 
+>## Challenge: create PAT jets
+>
 >Run `simulation_patjets_cfg.py`, open the file, and compare the two jet correction and b-tagging methods. Method 1 has `Jet_` and `CorrJet_` branches
 >and Method 2 has `PatJet_` and `PatJet_uncorr` branches.
 {: .discussion}
