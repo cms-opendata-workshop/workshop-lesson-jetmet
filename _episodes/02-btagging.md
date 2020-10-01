@@ -74,7 +74,7 @@ for (auto it = jets->begin(); it != jets->end(); it++) {
   }
 }
 ~~~
-{: .source}
+{: .language-cpp}
 
 We can investigate at the b tag information in a dataset using ROOT. 
 

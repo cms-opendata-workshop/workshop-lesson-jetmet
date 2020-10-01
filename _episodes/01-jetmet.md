@@ -83,7 +83,7 @@ for (auto it = jets->begin(); it != jets->end(); it++) {
 
 }
 ~~~
-{: .source}
+{: .language-cpp}
 
 Particle-flow jets are not immune to noise in the detector, and jets used in analyses should be filtered to remove noise jets. 
 CMS has defined a [Jet ID](http://cdsweb.cern.ch/record/1279362) with criteria for good jets: 
@@ -132,7 +132,7 @@ value_met_covxy = cov[0][1];
 value_met_covyy = cov[1][1];
 
 ~~~
-{: .source}
+{: .language-cpp}
 
 MET significance can be a useful tool: it describes the likelihood that the MET arose from noise or mismeasurement in the detector
 as opposed to a neutrino or similar non-interacting particle. The four-vectors of the other physics objects along with their 

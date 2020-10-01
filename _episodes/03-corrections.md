@@ -156,7 +156,7 @@ AOD2NanoAOD::AOD2NanoAOD(const edm::ParameterSet &iConfig){
   // ....function continues
 }
 ~~~
-{: .source}
+{: .language-cpp}
 
 In the `analyze` function the correction is evaluated for each jet. The correction depends on
 the momentum, pseudorapidity, energy, and cone area of the jet, as well as the value of "rho" (the average momentum
@@ -185,7 +185,7 @@ for (auto it = jets->begin(); it != jets->end(); it++) {
   }
 }
 ~~~
-{: .source}
+{: .language-cpp}
 
 >## Challenge: add L2L3 residual corrections to data
 >
@@ -261,7 +261,7 @@ jet's flavor directly makes calculation of b-tagging efficiencies and scale fact
     }
   }
 ~~~
-{: .source}
+{: .language-cpp}
 
 >## Challenge: create PAT jets
 >
@@ -305,7 +305,7 @@ for (auto it = jets->begin(); it != jets->end(); it++) {
   }
 }
 ~~~
-{: .source}
+{: .language-cpp}
 
 The uncertainties have several sources, shown in the figure below. The L1 (pileup) uncertainty dominates at low momentum,
 while the L3 (absolute scale) uncertainty takes over for higher momentum jets. All corrections are quite precise for

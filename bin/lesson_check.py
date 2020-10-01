@@ -80,8 +80,10 @@ KNOWN_CODEBLOCKS = {
     'language-make',
     'language-matlab',
     'language-python',
+    'language-cpp',
     'language-r',
     'language-shell',
+    'language-yaml',
     'language-sql'
 }
 
@@ -177,7 +179,7 @@ def check_config(reporter, source_dir):
     reporter.check_field(config_file, 'configuration',
                          config, 'kind', 'lesson')
     reporter.check_field(config_file, 'configuration',
-                         config, 'carpentry', ('swc', 'dc', 'lc', 'cp'))
+                         config, 'carpentry', ('swc', 'dc', 'lc', 'cp', 'cms'))
     reporter.check_field(config_file, 'configuration', config, 'title')
     reporter.check_field(config_file, 'configuration', config, 'email')
 
