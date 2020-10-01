@@ -134,7 +134,8 @@ extracting functions from a comma-separated-values file. Details and usage refer
  * [Data file for the CSV algoritm](https://twiki.cern.ch/twiki/pub/CMSPublic/BtagRecommendation2011OpenData/CSV.csv)
  * [Examples of application methods](https://twiki.cern.ch/twiki/bin/view/CMSPublic/BtagRecommendation2011OpenData#Methods_to_Apply_b_Tagging_Effic)
 
-Watch for more implementation examples in future updates to the Open Data Guide!
+>Watch for more efficiency and scale factor implementation examples in future updates to the Open Data Guide!
+{: .testimonial}
 
 {% include links.md %}
 

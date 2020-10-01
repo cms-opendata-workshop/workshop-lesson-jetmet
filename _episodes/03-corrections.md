@@ -193,9 +193,10 @@ for (auto it = jets->begin(); it != jets->end(); it++) {
 >to fully correct jets in data.
 {: .challenge}
 
-These corrections account for differences between the true and measured energy *scale* of jets, but not the energy *resolution*. The jet momentum resolution
-is typically too small in simulation and is widened using a Gaussian smearing technique. Watch for implementation details on this correction in a future
-update to the Open Data Guide. 
+>These corrections account for differences between the true and measured energy *scale* of jets, but not the energy *resolution*. The jet momentum resolution
+>is typically too small in simulation and is widened using a Gaussian smearing technique. Watch for implementation details on this correction in a future
+>update to the Open Data Guide. 
+{: .testimonial}
 
 ## JEC while producing pat::Jets
 
