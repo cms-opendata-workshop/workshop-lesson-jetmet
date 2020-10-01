@@ -74,7 +74,7 @@ $ ln -sf /cvmfs/cms-opendata-conddb.cern.ch/START53_V27.db START53_V27.db
 $ ls -l   ## make sure you see the full links as written above
 ```
 
-To write out text files, run `configs/jec_cfg/py`, which uses a small analyzer to open the database files we just linked:
+To write out text files, run `configs/jec_cfg.py`, which uses a small analyzer to open the database files we just linked:
 
 ```python
 # connect to global tag                                                                                                               
