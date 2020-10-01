@@ -43,22 +43,70 @@ described in [this paper](https://arxiv.org/pdf/1107.4277.pdf). The figure below
 <img src="responseFlow.PNG" alt="Response flow" />
 ![](../assets/img/responseFlow.PNG)
 
-There are several methods available for applying jet energy corrections to reconstructed jets. We have demonstrated a method to read in the corrections from
-text files and extract the corrections manually for each jet. In `simulation_cfg.py` the file names are passed to the `AOD2NanoAOD` analyzer:
+## JEC from text files
 
-~~~
+There are several methods available for applying jet energy corrections to reconstructed jets. We have demonstrated a method to read in the corrections from
+text files and extract the corrections manually for each jet. The text files can be extracted from the global tag. First, set up sym links to the conditions
+databases for 2012 data and simulation ([reference instructions](http://opendata.cern.ch/docs/cms-guide-for-condition-database)):
+
+```bash
+$ ln -sf /cvmfs/cms-opendata-conddb.cern.ch/FT53_V21A_AN6_FULL FT53_V21A_AN6
+$ ln -sf /cvmfs/cms-opendata-conddb.cern.ch/FT53_V21A_AN6_FULL.db FT53_V21A_AN6_FULL.db
+$ ln -sf /cvmfs/cms-opendata-conddb.cern.ch/FT53_V21A_AN6_FULL FT53_V21A_AN6_FULL
+$ ln -sf /cvmfs/cms-opendata-conddb.cern.ch/START53_V27 START53_V27
+$ ln -sf /cvmfs/cms-opendata-conddb.cern.ch/START53_V27.db START53_V27.db
+$ ls -l   ## make sure you see the full links as written above
+```
+
+To write out text files, run `configs/jec_cfg/py`, which uses a small analyzer to open the database files we just linked:
+
+```python
+# connect to global tag                                                                                                               
+if isData:
+    process.GlobalTag.connect = cms.string('sqlite_file:/cvmfs/cms-opendata-conddb.cern.ch/FT53_V21A_AN6_FULL.db')
+    process.GlobalTag.globaltag = 'FT53_V21A_AN6::All'
+else:
+    process.GlobalTag.connect = cms.string('sqlite_file:/cvmfs/cms-opendata-conddb.cern.ch/START53_V27.db')
+    process.GlobalTag.globaltag = 'START53_V27::All'
+
+
+# setup JetCorrectorDBReader                                                                                                          
+process.maxEvents = cms.untracked.PSet(input=cms.untracked.int32(1))
+process.source = cms.Source('EmptySource')
+process.ak5 = cms.EDAnalyzer('JetCorrectorDBReader',
+                             payloadName=cms.untracked.string('AK5PF'),
+                             printScreen=cms.untracked.bool(False),
+                             createTextFile=cms.untracked.bool(True))
+
+if isData:
+    process.ak5.globalTag = cms.untracked.string('FT53_V21A_AN6')
+else:
+    process.ak5.globalTag = cms.untracked.string('START53_V27')
+```
+
+Run this job once with `isData = True` and once with `isData = False`, then move the text files to the `data/` directory:
+
+```bash
+$ cmsRun configs/jec_cfg.py
+$ ## edit the file and flip isData
+$ cmsRun configs/jec_cfg.py
+$ mv *AK5PF.txt data/
+```
+
+In `simulation_cfg.py` the file names are passed to the `AOD2NanoAOD` analyzer:
+
+```python
 process.aod2nanoaod = cms.EDAnalyzer("AOD2NanoAOD",
-        jecL1Name = cms.FileInPath('workspace/AOD2NanoAOD/Summer12_V7_MC/Summer12_V7_MC_L1FastJet_AK5PFchs.txt'),
-        jecL2Name = cms.FileInPath('workspace/AOD2NanoAOD/Summer12_V7_MC/Summer12_V7_MC_L2Relative_AK5PFchs.txt'),
-        jecL3Name = cms.FileInPath('workspace/AOD2NanoAOD/Summer12_V7_MC/Summer12_V7_MC_L3Absolute_AK5PFchs.txt'),
-        jecUncName = cms.FileInPath('workspace/AOD2NanoAOD/Summer12_V7_MC/Summer12_V7_MC_Uncertainty_AK5PFchs.txt'),
+        jecL1Name = cms.FileInPath('workspace/AOD2NanoAODOutreachTool/data/START53_V27_L1FastJet_AK5PF.txt'),
+        jecL2Name = cms.FileInPath('workspace/AOD2NanoAODOutreachTool/data/START53_V27_L2Relative_AK5PF.txt'),
+        jecL3Name = cms.FileInPath('workspace/AOD2NanoAODOutreachTool/data/START53_V27_L3Absolute_AK5PF.txt'),
+        jecUncName = cms.FileInPath('workspace/AOD2NanoAODOutreachTool/data/START53_V27_Uncertainty_AK5PF.txt'),
         isData = cms.bool(False)
-~~~
-{: .source}
+```
 
 In `AOD2NanoAOD.cc` the files are read to build a `factorizedJetCorrector` object from which the corrections can be accessed:
 
-~~~
+```cpp
 // Object definitions
 bool isData;
 std::vector<std::string> jecPayloadNames_;
@@ -91,8 +139,7 @@ AOD2NanoAOD::AOD2NanoAOD(const edm::ParameterSet &iConfig){
 
   // ....function continues
 }
-~~~
-{: .source}
+```
 
 In the `analyze` function the correction is evaluated for each jet. The correction depends on
 the momentum, pseudorapidity, energy, and cone area of the jet, as well as the value of "rho" (the average momentum
