@@ -24,6 +24,7 @@ keypoints:
 >$ git add src/AOD2NanoAOD.cc ## plus any other files you changed
 >$ git commit -m "workshop day 1"
 >$ git pull
+>$ scram b
 >~~~
 >{: .language-bash}
 >You might see some merge conflicts (hopefully rare). In this case open the files, look for >>>>>>>>>> and choose the
@@ -38,7 +39,7 @@ effect can be studied independently.
 
 ## Correction levels
 
-<img src="correctionFlow.PNG" alt="Correction flow" />
+<img src="correctionFlow.PNG" alt="" />
 ![](../assets/img/correctionFlow.PNG)
 
 Particles from additional interactions in nearby bunch crossings of the LHC contribute energy in the calorimeters that must somehow be distinguished from the
@@ -55,7 +56,7 @@ All of these corrections are applied to both data and simulation. Data events ar
 simulation. A final set of flavor-based corrections are used in certain analyses that are especially sensitive to flavor effects. All of the corrections are
 described in [this paper](https://arxiv.org/pdf/1107.4277.pdf). The figure below shows the result of the L1+L2+L3 corrections on the jet response.
 
-<img src="responseFlow.PNG" alt="Response flow" />
+<img src="responseFlow.PNG" alt="" />
 ![](../assets/img/responseFlow.PNG)
 
 ## JEC from text files
@@ -121,7 +122,7 @@ process.aod2nanoaod = cms.EDAnalyzer("AOD2NanoAOD",
 
 In `AOD2NanoAOD.cc` the files are read to build a `factorizedJetCorrector` object from which the corrections can be accessed:
 
-```cpp
+~~~
 // Object definitions
 bool isData;
 std::vector<std::string> jecPayloadNames_;
@@ -154,7 +155,8 @@ AOD2NanoAOD::AOD2NanoAOD(const edm::ParameterSet &iConfig){
 
   // ....function continues
 }
-```
+~~~
+{: .source}
 
 In the `analyze` function the correction is evaluated for each jet. The correction depends on
 the momentum, pseudorapidity, energy, and cone area of the jet, as well as the value of "rho" (the average momentum
@@ -194,6 +196,76 @@ for (auto it = jets->begin(); it != jets->end(); it++) {
 These corrections account for differences between the true and measured energy *scale* of jets, but not the energy *resolution*. The jet momentum resolution
 is typically too small in simulation and is widened using a Gaussian smearing technique. Watch for implementation details on this correction in a future
 update to the Open Data Guide. 
+
+## JEC while producing pat::Jets
+
+Another popular object format in CMS is the "Physics Analysis Toolkit" format, called PAT. The jet energy corrections and Type-1 MET corrections can be
+applied to RECO jets while making PAT jets. To do this we will load the global tag and databases directly in the configuration file and use the 'addJetCollection'
+process to create a collection of pat::jets. Look at `simulation_patjets_cfg.py`:
+
+~~~
+# Set up the new jet collection                                                                             
+process.ak5PFJets.doAreaFastjet = True
+addPfMET(process, 'PF')
+
+addJetCollection(process,cms.InputTag('ak5PFJets'),
+                 'AK5', 'PFCorr',
+                 doJTA        = True,
+                 doBTagging   = True,
+                 jetCorrLabel = ('AK5PF', cms.vstring(['L1FastJet','L2Relative','L3Absolute']))
+                 doType1MET   = True,
+                 doL1Cleaning = True,
+                 doL1Counters = False,
+                 doJetID      = True,
+                 jetIdLabel   = "ak5",
+                 )
+~~~
+{: .language-python}
+
+In `AOD2NanoAOD.cc` we can look at the sections marked `if(doPat)` to see the difference in usage. In general, pat::jets are more
+complex to create in the configuration file, but simpler to use because of their additional functions. In particular, accessing the
+jet's flavor directly makes calculation of b-tagging efficiencies and scale factors simpler.
+
+~~~
+  if(doPat){
+
+    Handle<PFMETCollection> metT1;
+    iEvent.getByLabel(InputTag("pfType1CorrectedMet"), metT1);
+    value_met_type1_pt = metT1->begin()->pt();
+
+    Handle<std::vector<pat::Jet> > patjets;
+    iEvent.getByLabel(InputTag("selectedPatJetsAK5PFCorr"), patjets);
+
+    value_patjet_n = 0;
+    for (auto it = patjets->begin(); it != patjets->end(); it++) {
+      if (it->pt() > jet_min_pt) {
+
+        // Corrected values are now the default                                                             
+        value_patjet_pt[value_patjet_n] = it->pt();
+        value_patjet_eta[value_patjet_n] = it->eta();
+        value_patjet_mass[value_patjet_n] = it->mass();
+
+        // but uncorrected values can be accessed. JetID should be computed from the uncorrected jet        
+        pat::Jet uncorrJet = it->correctedJet(0);
+        value_uncorr_patjet_pt[value_patjet_n] = uncorrJet.pt();
+        value_uncorr_patjet_eta[value_patjet_n] = uncorrJet.eta();
+        value_uncorr_patjet_mass[value_patjet_n] = uncorrJet.mass();
+
+        // b-tagging is built in. Can access the truth flavor needed for b-tag effs & scale factor application!                                                                                                        
+        value_patjet_hflav[value_patjet_n] = it->hadronFlavour();
+        value_patjet_btag[value_patjet_n] = it->bDiscriminator( "pfCombinedInclusiveSecondaryVertexV2BJetTags");
+
+        value_patjet_n++;
+      }
+    }
+  }
+~~~
+{: .source}
+
+>Run `simulation_patjets_cfg.py`, open the file, and compare the two jet correction and b-tagging methods. Method 1 has `Jet_` and `CorrJet_` branches
+>and Method 2 has `PatJet_` and `PatJet_uncorr` branches.
+{: .discussion}
+
 
 ## Uncertainties
 
@@ -237,7 +309,7 @@ while the L3 (absolute scale) uncertainty takes over for higher momentum jets. A
 jets located near the center of the CMS barrel region, and the precision drops as pseudorapidity increases and different
 subdetectors lose coverage. 
 
-<img src="uncertainties.PNG" alt="JEC uncertainty" />
+<img src="uncertainties.PNG" alt="" />
 ![](../assets/img/uncertainties.PNG)
 
 >## Challenge: shifted histograms
