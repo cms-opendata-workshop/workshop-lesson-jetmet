@@ -105,7 +105,7 @@ From the "Events" tree, select Jet_btag to see the distribution of discriminator
 >>  value_jet_btagmva[value_jet_n] = btagsMVA->operator[](it - jets->begin()).second;
 >>  value_jet_btagtc[value_jet_n] = btagsTC->operator[](it - jets->begin()).second;
 >>~~~
->>{: .languate-cpp}
+>>{: .language-cpp}
 >>
 >>The distributions in ttbar events (excluding events with values of -9 where the tagger wasn't evaluated) look like this:
 >>![](../assets/img/TTbar_btaggers.png)
@@ -153,8 +153,7 @@ When training a tagging algorithm, it's highly probable that the efficiencies fo
 and data. These differences must be measured and corrected for using "scale factors" constructed from ratios of the efficiencies from different sources. The figures below
 show examples of the b and light quark efficiencies and scale factors as a function of jet momentum ([read more](https://twiki.cern.ch/twiki/bin/view/CMSPublic/PhysicsResultsBTV13001)).
 
-<img src="bEff.PNG" height=300 alt="" /> <img src="lightEff.PNG" height=300 alt="" />
-![](../assets/img/bEff.PNG) ![](../assets/img/lightEff.PNG)
+![width=0.75](../assets/img/bEff.PNG) ![width=0.5](../assets/img/lightEff.PNG)
 
 
 In simulation, the efficiency for tagging b quarks as b jets is defined as the number of "real b jets" (jets spatially matched to generator-level b hadrons)
