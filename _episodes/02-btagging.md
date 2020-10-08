@@ -92,7 +92,7 @@ From the "Events" tree, select Jet_btag to see the distribution of discriminator
 >Use `edmDumpEventContent` to investiate other b tagging algorithms available as edm::AssociationVector types.
 >Add 1-2 new branches for alternate taggers and compare those discriminants to CSV (compile and run cmsRun as you've done before).
 >
->>##Solution
+>>## Solution
 >>Let's add the MVA version of CSV and the high purity track counting tagger, which was the most common tagger in 2011.
 >>After adding new array declarations and branches in the top sections of `AOD2NanoAOD.cc`, we can open the collections
 >>for these alternate taggers:
@@ -129,7 +129,7 @@ defined based on mis-tagging rate:
 >
 >Calculate the number of jets per event that are b tagged according to the medium working point of the CSV algorithm.
 >
->>##Solution
+>>## Solution
 >>We count the number of "Medium CVS" b-tagged jets by summing up the number of jets with discriminant values greater than 0.679.
 >>After adding a variable declaration and branch we can sum up the counter:
 >>~~~

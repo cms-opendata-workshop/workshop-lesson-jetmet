@@ -191,6 +191,54 @@ for (auto it = jets->begin(); it != jets->end(); it++) {
 >
 >In data, the L2L3 residual corrections should also be applied. Use the "isData" switch and set up `AOD2NanoAOD.cc` and `data_cfg.py`
 >to fully correct jets in data.
+>
+>>## Solution
+>>When processing data, we need to open 4 text files rather than 3. This happens first in the config, which is actually missing ALL the
+>>text files right now! No switching is needed since we have a separate data config, but python if statements can be used if you want to
+>>have one configuration file for both data and simulation (left as an exercise to the reader). The text files for data start with "FT53"
+>>rather than "START53":
+>>~~~
+>>process.aod2nanoaod = cms.EDAnalyzer("AOD2NanoAOD",
+>>		      isData = cms.bool(True),
+>>		      doPat = cms.bool(False),
+>>		      jecL1Name = cms.FileInPath('workspace/AOD2NanoAODOutreachTool/data/FT53_V21A_AN6_L1FastJet_AK5PF.txt')
+>>		      jecL2Name = cms.FileInPath('workspace/AOD2NanoAODOutreachTool/data/FT53_V21A_AN6_L2Relative_AK5PF.txt')
+>>		      jecL3Name = cms.FileInPath('workspace/AOD2NanoAODOutreachTool/data/FT53_V21A_AN6_L3Absolute_AK5PF.txt')
+>>		      jecResName = cms.FileInPath('workspace/AOD2NanoAODOutreachTool/data/FT53_V21A_AN6_L2L3Residual_AK5PF.txt')
+>>		      jecUncName = cms.FileInPath('workspace/AOD2NanoAODOutreachTool/data/FT53_V21A_AN6_Uncertainty_AK5PF.txt')
+>>		      )
+>>~~~
+>>{: .language-python}
+>>
+>>In the source code we need to: teach the code about L2L3Residual, open that file only is `isData`, and apply uncertainties only if `!isData`.
+>>The first task is done in the class definition:
+>>~~~
+>>std::string jecL3_;
+>>std::string jecRes_;
+>>~~~
+>>{: .language-cpp}
+>>
+>>The second task is done in the constructor function of `AOD2NanoAOD`:
+>>~~~
+>>  jecL3_ = iConfig.getParameter<edm::FileInPath>("jecL3Name").fullPath();
+>>  jecRes_ = iConfig.getParameter<edm::FileInPath>("jecResName").fullPath();
+>>
+>>  jecPayloadNames_.push_back(jecL3_);
+>>  if(isData) jecPayloadNames_.push_back(jecRes_);
+>>~~~
+>>{: .language-cpp}
+>>
+>>And finally, we should escape the uncertainty calculation (more info on this below!) in the jet loop if we are working on data:
+>>~~~
+>>  double corrUp = 1.0;
+>>  double corrDown = 1.0;
+>>  if(!isData){
+>>    jecUnc_->setJetEta( uncorrJet.eta() );
+>>    // etc, through accessing corrUp and corrDown
+>>  }
+>>~~~
+>>{: .language-cpp}
+>{: .solution}
 {: .challenge}
 
 >These corrections account for differences between the true and measured energy *scale* of jets, but not the energy *resolution*. The jet momentum resolution
@@ -267,6 +315,12 @@ jet's flavor directly makes calculation of b-tagging efficiencies and scale fact
 >
 >Run `simulation_patjets_cfg.py`, open the file, and compare the two jet correction and b-tagging methods. Method 1 has `Jet_` and `CorrJet_` branches
 >and Method 2 has `PatJet_` and `PatJet_uncorr` branches.
+>
+>>## Solution
+>>An important difference between value_jet_pt and value_uncorr_patjet_pt is how the momentum threshold is applied: in PFJets all uncorrected jets have pT > 15 GeV
+>>while in PATJets this is applied to the corrected jets. There are small deviations in the corrected jet momentum between the 2 methods, most likely because
+>>of differences between the `rho` collection used for pileup corrections.
+>{: .solution}
 {: .discussion}
 
 
@@ -321,6 +375,11 @@ subdetectors lose coverage.
 >raw and corrected momentum larger or smaller than the uncertainty? Use TTree::Draw to make histograms of the various
 >momentum distributions. Ideally, show the up and down variations in different colors, and the raw vs corrected momenta
 >with different line styles.
+>
+>>## Solution
+>>Draw a histogram, hover over one of the lines, and right click. You should see a menu appear -- select "Set Line Attributes" and
+>>a GUI with pop up. This is handy for changing line colors and styles interactively.
+>{: .solution}
 {: .challenge}
 
 {% include links.md %}
