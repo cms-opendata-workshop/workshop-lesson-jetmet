@@ -120,6 +120,7 @@ A mixture of energy sources is expected for genuine jets. All of these energy fr
 >>    // calculate things on jets
 >>  }
 >>}
+>>~~~
 >>{: .language-cpp}
 >{: .solution}
 {: .challenge}
