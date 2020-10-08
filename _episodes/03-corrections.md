@@ -48,7 +48,8 @@ text files and extract the corrections manually for each jet. The text files can
 databases for 2012 data and simulation ([reference instructions](http://opendata.cern.ch/docs/cms-guide-for-condition-database)):
 
 >## Link database files
->You might have done this in the pre-exercises! But if not, do it now:
+>You might have done this in the pre-exercises! But if not, do it now. You will also need CVMFS mounted in your VM or docker container, which is
+>covered in the pre-exercises.
 >~~~
 >$ ln -sf /cvmfs/cms-opendata-conddb.cern.ch/FT53_V21A_AN6_FULL FT53_V21A_AN6
 >$ ln -sf /cvmfs/cms-opendata-conddb.cern.ch/FT53_V21A_AN6_FULL.db FT53_V21A_AN6_FULL.db
@@ -230,6 +231,7 @@ for (auto it = jets->begin(); it != jets->end(); it++) {
 >{: .solution}
 {: .challenge}
 
+>## Jet Energy Resolution
 >These corrections account for differences between the true and measured energy *scale* of jets, but not the energy *resolution*. The jet momentum resolution
 >is typically too small in simulation and is widened using a Gaussian smearing technique. Watch for implementation details on this correction in a future
 >update to the Open Data Guide. 
@@ -306,9 +308,10 @@ jet's flavor directly makes calculation of b-tagging efficiencies and scale fact
 >and Method 2 has `PatJet_` and `PatJet_uncorr` branches.
 >
 >>## Solution
->>An important difference between value_jet_pt and value_uncorr_patjet_pt is how the momentum threshold is applied: in PFJets all uncorrected jets have pT > 15 GeV
->>while in PATJets this is applied to the corrected jets. There are small deviations in the corrected jet momentum between the 2 methods, most likely because
->>of differences between the `rho` collection used for pileup corrections.
+>>We can clearly see the difference between corrected and uncorrected jet momentum, as well as small differences between particle-flow MET and type-1 corrected MET. 
+>>There are differences in the number of jets across the collections because of different applications of the pt threshold (applied to uncorrected PFJets and 
+>>corrected PATJets). The b-tagging distribution is ? 
+>>![](../assets/img/PtComps.png) ![](../assets/img/METComp.png) ![](../assets/img/BtagComp.png)
 >{: .solution}
 {: .discussion}
 
@@ -366,7 +369,10 @@ subdetectors lose coverage.
 >
 >>## Solution
 >>Draw a histogram, hover over one of the lines, and right click. You should see a menu appear -- select "Set Line Attributes" and
->>a GUI with pop up. This is handy for changing line colors and styles interactively.
+>>a GUI with pop up. This is handy for changing line colors and styles interactively. Over the bulk of the momentum distribution, the 
+>>jet energy corrections are significant -- the corrected and uncorrected versions are not consistent within the uncertainty. Drawing
+>>these plots is a typical sanity check in CMS analyses to test whether the uncertainties look sensible.
+>>![](../assets/img/JecUnc.png)
 >{: .solution}
 {: .challenge}
 
