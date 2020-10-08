@@ -74,7 +74,7 @@ $ ln -sf /cvmfs/cms-opendata-conddb.cern.ch/START53_V27.db START53_V27.db
 $ ls -l   ## make sure you see the full links as written above
 ```
 
-To write out text files, run `configs/jec_cfg/py`, which uses a small analyzer to open the database files we just linked:
+To write out text files, run `configs/jec_cfg.py`, which uses a small analyzer to open the database files we just linked:
 
 ```python
 # connect to global tag                                                                                                               
@@ -100,7 +100,7 @@ else:
     process.ak5.globalTag = cms.untracked.string('START53_V27')
 ```
 
-Run this job once with `isData = True` and once with `isData = False`, then move the text files to the `data/` directory:
+Run this job once with `isData = True` and once with `isData = False` (if you access the condition database for the first time, this will take a while). Then move the text files to the `data/` directory:
 
 ```bash
 $ cmsRun configs/jec_cfg.py
