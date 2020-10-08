@@ -293,7 +293,7 @@ jet's flavor directly makes calculation of b-tagging efficiencies and scale fact
 
         // b-tagging is built in. Can access the truth flavor needed for b-tag effs & scale factor application!                                                                                                        
         value_patjet_hflav[value_patjet_n] = it->hadronFlavour();
-        value_patjet_btag[value_patjet_n] = it->bDiscriminator( "pfCombinedInclusiveSecondaryVertexV2BJetTags");
+        value_patjet_btag[value_patjet_n] = it->bDiscriminator( "pfCombinedSecondaryVertexBJetTags");
 
         value_patjet_n++;
       }
@@ -308,9 +308,10 @@ jet's flavor directly makes calculation of b-tagging efficiencies and scale fact
 >and Method 2 has `PatJet_` and `PatJet_uncorr` branches.
 >
 >>## Solution
->>We can clearly see the difference between corrected and uncorrected jet momentum, as well as small differences between particle-flow MET and type-1 corrected MET. 
->>There are differences in the number of jets across the collections because of different applications of the pt threshold (applied to uncorrected PFJets and 
->>corrected PATJets). The b-tagging distribution is ? 
+>>We can clearly see the difference between corrected and uncorrected jet momentum, particularly at low momentum where the effects of pileup are largest
+>>as a fraction of the total jet energy. here are differences in the number of jets across the collections because of different applications of the pt threshold 
+>>(applied to uncorrected PFJets and corrected PATJets). We can also see small differences between particle-flow MET and type-1 corrected MET. 
+>>The b-tagging distribution is almost identical, with the majority of the differences between the jet collections lying in the "dummy" value columns.
 >>![](../assets/img/PtComps.png) ![](../assets/img/METComp.png) ![](../assets/img/BtagComp.png)
 >{: .solution}
 {: .discussion}
@@ -372,7 +373,7 @@ subdetectors lose coverage.
 >>a GUI with pop up. This is handy for changing line colors and styles interactively. Over the bulk of the momentum distribution, the 
 >>jet energy corrections are significant -- the corrected and uncorrected versions are not consistent within the uncertainty. Drawing
 >>these plots is a typical sanity check in CMS analyses to test whether the uncertainties look sensible.
->>![](../assets/img/JecUnc.png)
+>>![](../assets/img/StyleGui.png) ![](../assets/img/JecUnc.png)
 >{: .solution}
 {: .challenge}
 
