@@ -96,7 +96,7 @@ else:
 >$ cmsRun configs/jec_cfg.py
 >$ mv *AK5PF.txt data/
 >```
-{: prereq}
+{: .prereq}
 
 In `simulation_cfg.py` the file names are passed to the `AOD2NanoAOD` analyzer:
 
