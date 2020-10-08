@@ -15,22 +15,6 @@ keypoints:
 - "Jet energy corrections are an source of systematic error and uncertainties should be evaluated"
 ---
 
->## Update your github area
->
-> Before we begin today, please update your AOD2NanoAODOutreachTool area:
->~~~
->$ cd workspace/AOD2NanoAODOutreachTool/
->$ git status ## to see files you've changed
->$ git add src/AOD2NanoAOD.cc ## plus any other files you changed
->$ git commit -m "workshop day 1"
->$ git pull
->$ scram b
->~~~
->{: .language-bash}
->You might see some merge conflicts (hopefully rare). In this case open the files, look for >>>>>>>>>> and choose the
->updated version. 
-{: .prereq}
-
 Unsurprisingly, the CMS detector does not measure jet energies perfectly, nor
 do simulation and data agree perfectly! The measured energy of jet must be
 corrected so that it can be related to the true energy of its parent particle.
@@ -39,7 +23,6 @@ effect can be studied independently.
 
 ## Correction levels
 
-<img src="correctionFlow.PNG" alt="" />
 ![](../assets/img/correctionFlow.PNG)
 
 Particles from additional interactions in nearby bunch crossings of the LHC contribute energy in the calorimeters that must somehow be distinguished from the
@@ -56,7 +39,6 @@ All of these corrections are applied to both data and simulation. Data events ar
 simulation. A final set of flavor-based corrections are used in certain analyses that are especially sensitive to flavor effects. All of the corrections are
 described in [this paper](https://arxiv.org/pdf/1107.4277.pdf). The figure below shows the result of the L1+L2+L3 corrections on the jet response.
 
-<img src="responseFlow.PNG" alt="" />
 ![](../assets/img/responseFlow.PNG)
 
 ## JEC from text files
@@ -65,16 +47,20 @@ There are several methods available for applying jet energy corrections to recon
 text files and extract the corrections manually for each jet. The text files can be extracted from the global tag. First, set up sym links to the conditions
 databases for 2012 data and simulation ([reference instructions](http://opendata.cern.ch/docs/cms-guide-for-condition-database)):
 
-```bash
-$ ln -sf /cvmfs/cms-opendata-conddb.cern.ch/FT53_V21A_AN6_FULL FT53_V21A_AN6
-$ ln -sf /cvmfs/cms-opendata-conddb.cern.ch/FT53_V21A_AN6_FULL.db FT53_V21A_AN6_FULL.db
-$ ln -sf /cvmfs/cms-opendata-conddb.cern.ch/FT53_V21A_AN6_FULL FT53_V21A_AN6_FULL
-$ ln -sf /cvmfs/cms-opendata-conddb.cern.ch/START53_V27 START53_V27
-$ ln -sf /cvmfs/cms-opendata-conddb.cern.ch/START53_V27.db START53_V27.db
-$ ls -l   ## make sure you see the full links as written above
-```
+>## Link database files
+>You might have done this in the pre-exercises! But if not, do it now:
+>~~~
+>$ ln -sf /cvmfs/cms-opendata-conddb.cern.ch/FT53_V21A_AN6_FULL FT53_V21A_AN6
+>$ ln -sf /cvmfs/cms-opendata-conddb.cern.ch/FT53_V21A_AN6_FULL.db FT53_V21A_AN6_FULL.db
+>$ ln -sf /cvmfs/cms-opendata-conddb.cern.ch/FT53_V21A_AN6_FULL FT53_V21A_AN6_FULL
+>$ ln -sf /cvmfs/cms-opendata-conddb.cern.ch/START53_V27 START53_V27
+>$ ln -sf /cvmfs/cms-opendata-conddb.cern.ch/START53_V27.db START53_V27.db
+>$ ls -l   ## make sure you see the full links as written above
+>~~~
+>{: .language-bash}
+{: .prereq}
 
-To write out text files, run `configs/jec_cfg.py`, which uses a small analyzer to open the database files we just linked:
+To write out text files, we will use `configs/jec_cfg.py`, which uses a small analyzer to open the database files we just linked:
 
 ```python
 # connect to global tag                                                                                                               
@@ -100,14 +86,17 @@ else:
     process.ak5.globalTag = cms.untracked.string('START53_V27')
 ```
 
-Run this job once with `isData = True` and once with `isData = False` (if you access the condition database for the first time, this will take a while). Then move the text files to the `data/` directory:
-
-```bash
-$ cmsRun configs/jec_cfg.py
-$ ## edit the file and flip isData
-$ cmsRun configs/jec_cfg.py
-$ mv *AK5PF.txt data/
-```
+>## Make the text files
+>Run this job once with `isData = True` and once with `isData = False` (if you access the condition database for the first time, this will take a while).
+>Then move the text files to the `data/` directory:
+>
+>```bash
+>$ cmsRun configs/jec_cfg.py
+>$ ## edit the file and flip isData
+>$ cmsRun configs/jec_cfg.py
+>$ mv *AK5PF.txt data/
+>```
+{: prereq}
 
 In `simulation_cfg.py` the file names are passed to the `AOD2NanoAOD` analyzer:
 
@@ -366,7 +355,6 @@ while the L3 (absolute scale) uncertainty takes over for higher momentum jets. A
 jets located near the center of the CMS barrel region, and the precision drops as pseudorapidity increases and different
 subdetectors lose coverage. 
 
-<img src="uncertainties.PNG" alt="" />
 ![](../assets/img/uncertainties.PNG)
 
 >## Challenge: shifted histograms
