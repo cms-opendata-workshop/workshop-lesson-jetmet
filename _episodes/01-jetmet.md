@@ -120,6 +120,7 @@ A mixture of energy sources is expected for genuine jets. All of these energy fr
 >>    // calculate things on jets
 >>  }
 >>}
+>>{: .language-cpp}
 >{: .solution}
 {: .challenge}
 
@@ -180,6 +181,7 @@ a physics object is likely to arise from mismeasurement and should not have a la
 > {: .language-bash}
 >
 >>##Solution
+>>
 >>The difference between the Drell-Yan events with primarily fake MET and the top pair events with primarily genuine MET
 >>can be seen by drawing `MET_pt` or by drawing `MET_significance`. In both distributions the Drell-Yan events have 
 >>smaller values than the top pair events.
