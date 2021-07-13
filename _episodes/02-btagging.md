@@ -107,8 +107,9 @@ From the "Events" tree, select Jet_btag to see the distribution of discriminator
 >>~~~
 >>{: .language-cpp}
 >>
->>The distributions in ttbar events (excluding events with values of -9 where the tagger wasn't evaluated) look like this:
->>![](../assets/img/TTbar_btaggers.png)
+>>The distributions in ttbar events (excluding events with values of -9 where the tagger wasn't evaluated) are shown below. 
+>>The track counting discriminant is quite different and ranges 0 -- 30 or so. 
+>>![](../assets/img/btagComp.png)
 >{: .solution}
 {: .challenge}
 
@@ -130,7 +131,7 @@ defined based on mis-tagging rate:
 >Calculate the number of jets per event that are b tagged according to the medium working point of the CSV algorithm.
 >
 >>## Solution
->>We count the number of "Medium CVS" b-tagged jets by summing up the number of jets with discriminant values greater than 0.679.
+>>We count the number of "Medium CSV" b-tagged jets by summing up the number of jets with discriminant values greater than 0.679.
 >>After adding a variable declaration and branch we can sum up the counter:
 >>~~~
 >>value_jet_nCSVM = 0;
@@ -144,6 +145,8 @@ defined based on mis-tagging rate:
 >>}
 >>~~~
 >>{: .language-cpp}
+>>The distribution of the number of CSV b jets also shows a strong difference, as expected, between Drell-Yan and top pair events:
+>>![](../assets/img/btagCount.png)
 >{: .solution}
 {: .challenge}
 
@@ -153,7 +156,7 @@ When training a tagging algorithm, it's highly probable that the efficiencies fo
 and data. These differences must be measured and corrected for using "scale factors" constructed from ratios of the efficiencies from different sources. The figures below
 show examples of the b and light quark efficiencies and scale factors as a function of jet momentum ([read more](https://twiki.cern.ch/twiki/bin/view/CMSPublic/PhysicsResultsBTV13001)).
 
-![](../assets/img/bEff.PNG =500x) ![](../assets/img/lightEff.PNG =500x)
+![](../assets/img/bEff.PNG) ![](../assets/img/lightEff.PNG)
 
 
 In simulation, the efficiency for tagging b quarks as b jets is defined as the number of "real b jets" (jets spatially matched to generator-level b hadrons)
